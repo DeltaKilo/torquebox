@@ -18,24 +18,26 @@ echo "  BUNDLE_PATH: $BUNDLE_PATH"
 echo "*** Environment ***"
 set
 
+echo "*** Setting up Maven repository***"
+mkdir ~/m2repo
+export $M2REPO=~/m2repo
+
 echo "*** PWD ***"
 echo $PWD
 
-echo "*** Start Preflight ***"
-echo "Removing $M2_REPO/org/torquebox/"
-rm -rf $M2_REPO/org/torquebox
+echo "*** Choosing JDK7 as the build enviroment"
+jdk_switcher use oraclejdk7
 
-echo "Removing $M2_REPO/rubygems"
-rm -rf $M2_REPO/rubygems
+echo "*** Starting Build ***"
 
-echo "Peforming cleaning"
-$MAVEN_HOME/bin/mvn clean -Pinteg -Pdist
+echo "Performing core build skipping tests"
+mvn -Dmaven.repo.local=$M2_REPO -U -s $TRAVIS_BUILD_DIR/support/settings.xml install -Dmaven.test.skip=true
 
-echo "*** Start Build ***"
+echo "Performing integ build on JDK7"
+cd integration-tests && mvn -Dmaven.repo.local=$M2_REPO -U -s $TRAVIS_BUILD_DIR/support/settings.xml test
 
-echo "Peforming core build skipping tests"
-$MAVEN_HOME/bin/mvn -Dmaven.repo.local=$M2_REPO -U -s ./support/settings.xml install -Dmaven.test.skip=true
-
-echo "Peforming integ build"
-cd integration-tests && $MAVEN_HOME/bin/mvn -Dmaven.repo.local=$M2_REPO -U -s ./support/settings.xml test
-
+echo "Performing integ build on JDK6"
+cd $TRAVIS_BUILD_DIR
+jdk_switcher use openjdk6
+mvn clean -Pdist
+cd integration-tests && mvn -Dmaven.repo.local=$M2_REPO -U -s $TRAVIS_BUILD_DIR/support/settings.xml test
