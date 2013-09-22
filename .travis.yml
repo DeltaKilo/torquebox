@@ -5,3 +5,4 @@ jdk:
   - openjdk6
 
 script: ./support/ci-travis.sh
+install: true # Do not run default build script as https://github.com/travis-ci/travis-ci/issues/1400
