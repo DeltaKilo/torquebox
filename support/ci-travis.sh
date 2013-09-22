@@ -20,7 +20,7 @@ set
 
 echo "*** Setting up Maven repository***"
 mkdir ~/m2repo
-export $M2REPO=~/m2repo
+export M2REPO="~/m2repo"
 
 echo "*** PWD ***"
 echo $PWD
