@@ -9,6 +9,7 @@ function switch_jdk () {
 echo "*** Updating enviroment ***"
 sudo apt-get -qq update
 sudo apt-get -qq install openjdk-6-jdk openjdk-7-jdk icedtea-6-plugin icedtea-7-plugin oracle-java7-installer
+sudo apt-get -qq dist-upgrade
 switch_jdk java-7-oracle
 
 echo "*** Unsetting variables ***"
