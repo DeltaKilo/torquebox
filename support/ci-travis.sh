@@ -52,6 +52,6 @@ cd integration-tests && mvn -Dmaven.repo.local=$M2_REPO -U -s $TRAVIS_BUILD_DIR/
 
 echo "Performing integ build on JDK6"
 cd $TRAVIS_BUILD_DIR
-switch_jdk java-6-openjdk
+switch_jdk java-1.6.0-openjdk
 mvn clean -Pinteg
 cd integration-tests && mvn -Dmaven.repo.local=$M2_REPO -U -s $TRAVIS_BUILD_DIR/support/settings.xml test
